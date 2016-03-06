@@ -1,0 +1,2 @@
+ACTION=="remove", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", RUN+="/usr/bin/sudo -u danieln /usr/bin/gpgconf --reload scdaemon"
+ACTION=="remove", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", RUN+="/usr/bin/sudo -u danieln /usr/bin/pkill -HUP gpg-agent"
