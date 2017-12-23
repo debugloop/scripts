@@ -55,26 +55,26 @@ fi
 
 if [ $# -eq 3 ]
 then
-    PIN=${3}
+    PIN="$3"
 elif [ -z "$PE" ]
 then
     echo -e "Pinentry not present\nFalling back to regular stdin.\nBe careful!"
     echo "Enter your admin PIN: "
     read PIN
 else
-    PIN="$(echo -e ${PE_PROMPT} | ${PE} | sed -n '/^D [[:alnum:]]/s/^D //p')"
+    PIN="$(echo -e $PE_PROMPT | $PE | sed -n '/^D .*/s/^D //p')"
 fi
 
-if [ -z "${PIN}" ]
+if [ -z "$PIN" ]
 then
     echo "Empty PIN. Aborting..."
     exit 1
 fi
 
 PIN_LEN=${#PIN}
-PIN_LEN=$(printf %02d $PIN_LEN)
+PIN_LEN=$(printf %02x $PIN_LEN)
 
-PIN=$(echo -n $PIN | xxd -ps | sed 's/[[:xdigit:]]\{2\}/& /g')
+PIN=$(echo -n "$PIN" | xxd -ps | sed 's/[[:xdigit:]]\{2\}/& /g')
 
 $GCA --hex "scd reset" /bye > /dev/null
 

@@ -1,7 +1,12 @@
 #!/bin/bash
-rsync -P -v -a /run/media/danieln/media/Filme /run/media/danieln/storage/
-rsync -P -v -a /run/media/danieln/media/Music /run/media/danieln/storage/
-rsync -P -v -a /run/media/danieln/media/Pictures /run/media/danieln/storage/
-rsync -P -v -a /run/media/danieln/media/Serien /run/media/danieln/storage/
-rsync -P -v -a /home/danieln/Documents /run/media/danieln/storage/
-rsync -P -v -a /home/danieln/Code /run/media/danieln/storage/
+read -s -p "enter password: " pass
+echo
+
+BORG_PASSPHRASE=$pass BORG_RSH="ssh -i ~/.ssh/id_danieln" borg create -v --stats --progress --one-file-system \
+    --compression zlib,5 \
+    -e 'sh:/home/danieln/Desktop' \
+    -e 'sh:/home/danieln/Downloads' \
+    --exclude-from '/home/danieln/scripts/EXCLUDE' \
+    16385@ch-s010.rsync.net:borg::'{hostname}-{now:%Y-%m-%d}' /home/danieln/ /home/danieln/.config/ /home/danieln/.gnupg/
+
+BORG_PASSPHRASE=$pass BORG_RSH="ssh -i ~/.ssh/id_danieln" borg prune -v 16385@ch-s010.rsync.net:borg --prefix '{hostname}-' --keep-daily=7 --keep-weekly=4 --keep-monthly=6

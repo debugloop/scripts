@@ -1,8 +1,0 @@
-[Unit]
-Description=log_temp
-
-[Service]
-ExecStart=/home/danieln/scripts/temperature_logging/log_rrd.sh
-
-[Install]
-WantedBy=multi-user.target
