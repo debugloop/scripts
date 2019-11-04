@@ -18,6 +18,8 @@ pre_lock() {
 
 # Run after the locker exits
 post_lock() {
+    rm /tmp/screenshot.png
+    rm /tmp/screenshotblur.png
     # xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.2
     # xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -40 -40
     # xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Inertia" 3

@@ -1,12 +1,8 @@
-status=$(synclient | grep TouchpadOff)
-if [[ $status =~ "0" ]]; then
-    synclient TouchpadOff=1;
-    if [[ -z $1 ]]; then
-        notify-send -u LOW "Touchpad turned off";
-    fi
+id=$(xinput list | grep TouchPad | grep -oP 'id=\K([[:digit:]]*)')
+if xinput list-props $id | grep "Device Enabled ([[:digit:]]*):[[:space:]]*1"; then
+    xinput disable $id;
+    notify-send -u LOW "Touchpad turned off";
 else
-    synclient TouchpadOff=0;
-    if [[ -z $1 ]]; then
-        notify-send -u LOW "Touchpad turned on";
-    fi
+    xinput enable $id;
+    notify-send -u LOW "Touchpad turned on";
 fi
