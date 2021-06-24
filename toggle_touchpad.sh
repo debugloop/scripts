@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 id=$(xinput list | grep TouchPad | grep -oP 'id=\K([[:digit:]]*)')
 if xinput list-props $id | grep "Device Enabled ([[:digit:]]*):[[:space:]]*1"; then
     xinput disable $id;
